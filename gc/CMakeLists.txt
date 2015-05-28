@@ -6,8 +6,11 @@ project(${LIB})
 set(GC_MAJOR_VERSION 2.3.0)
 set(GC_MINOR_VERSION 2.3)
 
-set(GC_SOURCE minfo.cpp)
-set(GC_HEADER gc_global.h minfo.h)
+set(GC_SOURCE minfo.cpp
+              garbagecollector.cpp)
+set(GC_HEADER gc_global.h
+              minfo.h
+              garbagecollector.h)
 
 add_library(${LIB} SHARED ${GC_SOURCE})
 set_target_properties(${LIB} PROPERTIES
