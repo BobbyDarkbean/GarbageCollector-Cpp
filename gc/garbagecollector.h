@@ -42,8 +42,8 @@ void GarbageCollector::acquire(T *ptr, bool array)
             _mem_map.insert(std::make_pair(_object_unique_id(ptr), mInfo));
 
     if (!insertion.second) {
-        delete *insertion.first;
-        *insertion.first = mInfo;
+        delete insertion.first->second;
+        insertion.first->second = mInfo;
     }
 }
 
