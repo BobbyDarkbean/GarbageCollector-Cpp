@@ -62,6 +62,9 @@ void GarbageCollector::release(T *ptr)
 }
 
 
+extern GarbageCollector _GC;
+
+
 } // namespace MemoryManagement
 
 

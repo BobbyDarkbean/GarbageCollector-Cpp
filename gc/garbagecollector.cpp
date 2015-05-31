@@ -17,4 +17,7 @@ GarbageCollector::~GarbageCollector()
 }
 
 
+GarbageCollector _GC;
+
+
 } // namespace MemoryManagement

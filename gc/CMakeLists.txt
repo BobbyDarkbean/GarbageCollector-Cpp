@@ -10,6 +10,7 @@ set(GC_SOURCE minfo.cpp
               garbagecollector.cpp)
 set(GC_HEADER gc_global.h
               minfo.h
+              memorymanagement.h
               garbagecollector.h)
 
 add_library(${LIB} SHARED ${GC_SOURCE})
