@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 2.8)
 set(LIB memmngt-gc)
 project(${LIB})
 
+message("System: ${CMAKE_SYSTEM}")
+message("Project: ${PROJECT_NAME}")
+
 set(GC_MAJOR_VERSION 2.3.0)
 set(GC_MINOR_VERSION 2.3)
 

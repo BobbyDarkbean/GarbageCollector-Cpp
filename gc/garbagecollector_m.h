@@ -4,11 +4,13 @@
 
 #include <cstdlib>
 #include <map>
-#include "minfo.h"
 #include "gc_global.h"
 
 
 namespace MemoryManagement {
+
+
+class _MBlockInfo;
 
 
 struct GarbageCollectorImplementation

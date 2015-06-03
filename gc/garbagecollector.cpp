@@ -1,4 +1,6 @@
+#include "minfo.h"
 #include "garbagecollector_m.h"
+
 #include "garbagecollector.h"
 
 
