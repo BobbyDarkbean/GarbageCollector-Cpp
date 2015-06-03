@@ -5,6 +5,7 @@
 #include <map>
 #include <cstdlib>
 #include "minfo.h"
+#include "gc_shared.h"
 
 
 namespace MemoryManagement {
@@ -15,7 +16,7 @@ inline size_t _object_unique_id(T *ptr)
 { return reinterpret_cast<size_t>(ptr); }
 
 
-class GarbageCollector
+class GC_SHARED GarbageCollector
 {
 public:
     GarbageCollector();
