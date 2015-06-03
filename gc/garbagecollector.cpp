@@ -31,6 +31,13 @@ GarbageCollector::~GarbageCollector()
 }
 
 
+GarbageCollector &GarbageCollector::instance()
+{
+    static GarbageCollector gc;
+    return gc;
+}
+
+
 void GarbageCollector::acquire(size_t key, _MBlockInfo *mInfo)
 {
     std::pair<std::map<size_t, _MBlockInfo *>::iterator, bool> insertion =
@@ -54,9 +61,6 @@ void GarbageCollector::release(size_t key)
     delete itr->second;
     m->mem_map.erase(itr);
 }
-
-
-GarbageCollector _GC;
 
 
 } // namespace MemoryManagement

@@ -23,8 +23,9 @@ inline size_t _object_unique_id(T *ptr)
 struct GarbageCollectorImplementation;
 class GC_SHARED GarbageCollector
 {
-public:
     GarbageCollector();
+
+public:
     ~GarbageCollector();
 
     template <typename T>
@@ -32,6 +33,8 @@ public:
 
     template <typename T>
     void release(T *ptr);
+
+    static GarbageCollector &instance();
 
 private:
     DISABLE_COPY(GarbageCollector)
@@ -54,7 +57,7 @@ void GarbageCollector::release(T *ptr)
 { release(_object_unique_id(ptr)); }
 
 
-extern GarbageCollector _GC;
+#define _GC ::MemoryManagement::GarbageCollector::instance()
 
 
 } // namespace MemoryManagement
