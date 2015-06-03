@@ -13,6 +13,8 @@ set(GC_HEADER gc_global.h
               memorymanagement.h
               garbagecollector.h)
 
+set(CMAKE_CXX_FLAGS "-Wall -O3 -pedantic -s -std=c++0x")
+
 add_library(${LIB} SHARED ${GC_SOURCE})
 set_target_properties(${LIB} PROPERTIES
                              VERSION ${GC_MAJOR_VERSION}

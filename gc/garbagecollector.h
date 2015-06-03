@@ -30,36 +30,21 @@ public:
 private:
     DISABLE_COPY(GarbageCollector)
 
+    void acquire(size_t, _MBlockInfo *);
+    void release(size_t);
+
     std::map<size_t, _MBlockInfo *> _mem_map;
 };
 
 
 template <typename T>
 void GarbageCollector::acquire(T *ptr, bool array)
-{
-    _MBlockInfo *mInfo = create_mInfo(ptr, array);
-    std::pair<std::map<size_t, _MBlockInfo *>::iterator, bool> insertion =
-            _mem_map.insert(std::make_pair(_object_unique_id(ptr), mInfo));
-
-    if (!insertion.second) {
-        delete insertion.first->second;
-        insertion.first->second = mInfo;
-    }
-}
+{ acquire(_object_unique_id(ptr), create_mInfo(ptr, array)); }
 
 
 template <typename T>
 void GarbageCollector::release(T *ptr)
-{
-    std::map<size_t, _MBlockInfo *>::iterator itr =
-            _mem_map.find(_object_unique_id(ptr));
-
-    if (itr == _mem_map.end())
-        return;
-
-    delete itr->second;
-    _mem_map.erase(itr);
-}
+{ release(_object_unique_id(ptr)); }
 
 
 extern GarbageCollector _GC;
