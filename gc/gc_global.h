@@ -7,6 +7,11 @@
     Class &operator =(const Class &);
 
 
+#define DISABLE_MOVE(Class) \
+    Class(Class &&); \
+    Class &operator =(Class &&);
+
+
 #define GC_DRIVEN(Class) \
     virtual ~Class(); \
     template <typename T> \

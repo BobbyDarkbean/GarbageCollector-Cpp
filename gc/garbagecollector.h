@@ -2,13 +2,17 @@
 #define GARBAGECOLLECTOR_H
 
 
-#include <map>
 #include <cstdlib>
-#include "minfo.h"
+#include "gc_global.h"
 #include "gc_shared.h"
 
 
 namespace MemoryManagement {
+
+
+class _MBlockInfo;
+template <typename T>
+inline _MBlockInfo *create_mInfo(T *ptr, bool array);
 
 
 template <typename T>
@@ -16,6 +20,7 @@ inline size_t _object_unique_id(T *ptr)
 { return reinterpret_cast<size_t>(ptr); }
 
 
+struct GarbageCollectorImplementation;
 class GC_SHARED GarbageCollector
 {
 public:
@@ -30,11 +35,12 @@ public:
 
 private:
     DISABLE_COPY(GarbageCollector)
+    DISABLE_MOVE(GarbageCollector)
 
     void acquire(size_t, _MBlockInfo *);
     void release(size_t);
 
-    std::map<size_t, _MBlockInfo *> _mem_map;
+    GarbageCollectorImplementation *m;
 };
 
 

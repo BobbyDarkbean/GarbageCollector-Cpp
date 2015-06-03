@@ -12,6 +12,7 @@ set(GC_HEADER gc_global.h
               gc_shared.h
               minfo.h
               memorymanagement.h
+              garbagecollector_m.h
               garbagecollector.h)
 
 if(WIN32)
