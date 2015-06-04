@@ -10,45 +10,45 @@ namespace MemoryManagement {
 
 template <typename T>
 inline T *new_object()
-{ _GC.acquire(new T, false); }
+{ return _GC.acquire(new T, false); }
 
 
 template <typename T,
           typename T1>
 inline T *new_object(T1 arg)
-{ _GC.acquire(new T(arg), false); }
+{ return _GC.acquire(new T(arg), false); }
 
 
 template <typename T,
           typename T1, typename T2>
 inline T *new_object(T1 arg1, T2 arg2)
-{ _GC.acquire(new T(arg1, arg2), false); }
+{ return _GC.acquire(new T(arg1, arg2), false); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3>
 inline T *new_object(T1 arg1, T2 arg2, T3 arg3)
-{ _GC.acquire(new T(arg1, arg2, arg3), false); }
+{ return _GC.acquire(new T(arg1, arg2, arg3), false); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3, typename T4>
 inline T *new_object(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4), false); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4), false); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3, typename T4,
           typename T5>
 inline T *new_object(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5), false); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5), false); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3, typename T4,
           typename T5, typename T6>
 inline T *new_object(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6), false); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6), false); }
 
 
 template <typename T,
@@ -56,7 +56,7 @@ template <typename T,
           typename T5, typename T6, typename T7>
 inline T *new_object(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6,
                      T7 arg7)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7), false); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7), false); }
 
 
 template <typename T,
@@ -64,50 +64,53 @@ template <typename T,
           typename T5, typename T6, typename T7, typename T8>
 inline T *new_object(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6,
                      T7 arg7, T8 arg8)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), false); }
+{
+    return _GC.acquire(
+            new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), false);
+}
 
 
 template <typename T>
 inline T *new_array()
-{ _GC.acquire(new T, true); }
+{ return _GC.acquire(new T, true); }
 
 
 template <typename T,
           typename T1>
 inline T *new_array(T1 arg)
-{ _GC.acquire(new T(arg), true); }
+{ return _GC.acquire(new T(arg), true); }
 
 
 template <typename T,
           typename T1, typename T2>
 inline T *new_array(T1 arg1, T2 arg2)
-{ _GC.acquire(new T(arg1, arg2), true); }
+{ return _GC.acquire(new T(arg1, arg2), true); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3>
 inline T *new_array(T1 arg1, T2 arg2, T3 arg3)
-{ _GC.acquire(new T(arg1, arg2, arg3), true); }
+{ return _GC.acquire(new T(arg1, arg2, arg3), true); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3, typename T4>
 inline T *new_array(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4), true); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4), true); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3, typename T4,
           typename T5>
 inline T *new_array(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5), true); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5), true); }
 
 
 template <typename T,
           typename T1, typename T2, typename T3, typename T4,
           typename T5, typename T6>
 inline T *new_array(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6), true); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6), true); }
 
 
 template <typename T,
@@ -115,7 +118,7 @@ template <typename T,
           typename T5, typename T6, typename T7>
 inline T *new_array(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6,
                     T7 arg7)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7), true); }
+{ return _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7), true); }
 
 
 template <typename T,
@@ -123,7 +126,10 @@ template <typename T,
           typename T5, typename T6, typename T7, typename T8>
 inline T *new_array(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6,
                     T7 arg7, T8 arg8)
-{ _GC.acquire(new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), true); }
+{
+    return _GC.acquire(
+            new T(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), true);
+}
 
 
 template <typename T>

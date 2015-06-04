@@ -6,6 +6,7 @@
 
 
 namespace MemoryManagement {
+namespace Mapping {
 
 
 template <typename T>
@@ -94,10 +95,14 @@ void *_AAllocInfo<T>::address() const
 
 
 template <typename T>
-inline _MBlockInfo *create_mInfo(T *ptr, bool array)
-{ return array ? new _AAllocInfo<T>(ptr) : new _MAllocInfo<T>(ptr); }
+_MBlockInfo *create_mInfo(T *ptr, bool array)
+{
+    if (array)  return new _AAllocInfo<T>(ptr);
+    else        return new _MAllocInfo<T>(ptr);
+}
 
 
+} // namespace Mapping
 } // namespace MemoryManagement
 
 

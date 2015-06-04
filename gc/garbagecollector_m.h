@@ -8,6 +8,7 @@
 
 
 namespace MemoryManagement {
+namespace Mapping {
 
 
 class _MBlockInfo;
@@ -26,7 +27,8 @@ private:
 };
 
 
-}
+} // namespace Mapping
+} // namespace MemoryManagement
 
 
 #endif // GARBAGECOLLECTOR_M_H

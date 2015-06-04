@@ -1,10 +1,9 @@
-#include "minfo.h"
 #include "garbagecollector_m.h"
-
 #include "garbagecollector.h"
 
 
 namespace MemoryManagement {
+namespace Mapping {
 
 
 GarbageCollectorImplementation::GarbageCollectorImplementation()
@@ -63,4 +62,5 @@ void GarbageCollector::release(size_t key)
 }
 
 
+} // namespace Mapping
 } // namespace MemoryManagement

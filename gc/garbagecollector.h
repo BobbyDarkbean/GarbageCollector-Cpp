@@ -3,16 +3,12 @@
 
 
 #include <cstdlib>
-#include "gc_global.h"
+#include "minfo.h"
 #include "gc_shared.h"
 
 
 namespace MemoryManagement {
-
-
-class _MBlockInfo;
-template <typename T>
-inline _MBlockInfo *create_mInfo(T *ptr, bool array);
+namespace Mapping {
 
 
 template <typename T>
@@ -29,7 +25,7 @@ public:
     ~GarbageCollector();
 
     template <typename T>
-    void acquire(T *ptr, bool array);
+    T *acquire(T *ptr, bool array);
 
     template <typename T>
     void release(T *ptr);
@@ -48,19 +44,23 @@ private:
 
 
 template <typename T>
-void GarbageCollector::acquire(T *ptr, bool array)
-{ acquire(_object_unique_id(ptr), create_mInfo(ptr, array)); }
+inline T *GarbageCollector::acquire(T *ptr, bool array)
+{
+    acquire(_object_unique_id(ptr), create_mInfo(ptr, array));
+    return ptr;
+}
 
 
 template <typename T>
-void GarbageCollector::release(T *ptr)
+inline void GarbageCollector::release(T *ptr)
 { release(_object_unique_id(ptr)); }
 
 
-#define _GC ::MemoryManagement::GarbageCollector::instance()
-
-
+} // namespace Mapping
 } // namespace MemoryManagement
+
+
+#define _GC (::MemoryManagement::Mapping::GarbageCollector::instance())
 
 
 #endif // GARBAGECOLLECTOR_H
