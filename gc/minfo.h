@@ -3,6 +3,10 @@
 
 
 #include "gc_global.h"
+#ifdef GC_ECHO
+#include <iostream>
+#include <typeinfo>
+#endif // GC_ECHO
 
 
 namespace MemoryManagement {
@@ -68,11 +72,24 @@ private:
 
 template <typename T>
 _MAllocInfo<T>::_MAllocInfo(T *object)
-    : _MBlockInfo(), obj(object) { }
+    : _MBlockInfo(), obj(object)
+{
+#ifdef GC_ECHO
+    std::cout << "MInfo: created for object of type "
+              << typeid(T).name() << " at " << obj << std::endl;
+#endif // GC_ECHO
+}
 
 
 template <typename T>
-_MAllocInfo<T>::~_MAllocInfo() { _destruct_call(obj); }
+_MAllocInfo<T>::~_MAllocInfo()
+{
+    _destruct_call(obj);
+#ifdef GC_ECHO
+    std::cout << "MInfo: object of type " << typeid(T).name()
+              << " destroyed at " << obj << std::endl;
+#endif // GC_ECHO
+}
 
 
 template <typename T>
@@ -82,11 +99,24 @@ void *_MAllocInfo<T>::address() const
 
 template <typename T>
 _AAllocInfo<T>::_AAllocInfo(T *array)
-    : _MBlockInfo(), arr(array) { }
+    : _MBlockInfo(), arr(array)
+{
+#ifdef GC_ECHO
+    std::cout << "MInfo: created for array of type "
+              << typeid(T).name() << " at " << arr << std::endl;
+#endif // GC_ECHO
+}
 
 
 template <typename T>
-_AAllocInfo<T>::~_AAllocInfo() { _destruct_array_call(arr); }
+_AAllocInfo<T>::~_AAllocInfo()
+{
+    _destruct_array_call(arr);
+#ifdef GC_ECHO
+    std::cout << "MInfo: array of type " << typeid(T).name()
+              << " destroyed at " << arr << std::endl;
+#endif // GC_ECHO
+}
 
 
 template <typename T>

@@ -18,7 +18,7 @@ set(GC_HEADER gc_global.h
               garbagecollector.h)
 
 if(WIN32)
-set(MEMMNGT_GC_LIB)
+add_definitions(-DMEMMNGT_GC_LIB)
 endif(WIN32)
 
 set(CMAKE_CXX_FLAGS "-Wall -O3 -pedantic -s -std=c++0x")

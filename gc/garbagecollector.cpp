@@ -1,3 +1,7 @@
+#ifdef GC_ECHO
+#include <iostream>
+#include <typeinfo>
+#endif // GC_ECHO
 #include "garbagecollector_m.h"
 #include "garbagecollector.h"
 
@@ -15,6 +19,10 @@ GarbageCollectorImplementation::~GarbageCollectorImplementation()
     std::map<size_t, _MBlockInfo *>::iterator _end = mem_map.end();
     for (std::map<size_t, _MBlockInfo *>::iterator itr = mem_map.begin();
          itr != _end; ++itr) {
+#ifdef GC_ECHO
+    std::cout << "GC: auto destruction at "
+              << itr->second->address() << std::endl;
+#endif // GC_ECHO
         delete itr->second;
     }
 }
@@ -46,6 +54,10 @@ void GarbageCollector::acquire(size_t key, _MBlockInfo *mInfo)
         delete insertion.first->second;
         insertion.first->second = mInfo;
     }
+#ifdef GC_ECHO
+    std::cout << "GC: pointer acquired at "
+              << insertion.first->second->address() << std::endl;
+#endif // GC_ECHO
 }
 
 
@@ -57,6 +69,10 @@ void GarbageCollector::release(size_t key)
     if (itr == m->mem_map.end())
         return;
 
+#ifdef GC_ECHO
+    std::cout << "GC: user-activated destruction at "
+              << itr->second->address() << std::endl;
+#endif // GC_ECHO
     delete itr->second;
     m->mem_map.erase(itr);
 }
