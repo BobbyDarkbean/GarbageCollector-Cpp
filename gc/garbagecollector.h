@@ -29,6 +29,8 @@ public:
     template <typename T>
     void release(T *ptr);
 
+    size_t acquisitions() const;
+
     static GarbageCollector &instance();
 
 private:

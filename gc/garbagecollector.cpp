@@ -10,6 +10,9 @@ namespace MemoryManagement {
 namespace Mapping {
 
 
+std::mutex GarbageCollectorImplementation::mx;
+
+
 GarbageCollectorImplementation::GarbageCollectorImplementation()
     : mem_map() { }
 
@@ -35,6 +38,12 @@ GarbageCollector::GarbageCollector()
 GarbageCollector::~GarbageCollector()
 {
     delete m;
+}
+
+
+size_t GarbageCollector::acquisitions() const
+{
+    return m->mem_map.size();
 }
 
 

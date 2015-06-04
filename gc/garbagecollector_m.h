@@ -29,10 +29,6 @@ private:
     DISABLE_MOVE(GarbageCollectorImplementation)
 };
 
-
-std::mutex GarbageCollectorImplementation::mx;
-
-
 } // namespace Mapping
 } // namespace MemoryManagement
 
