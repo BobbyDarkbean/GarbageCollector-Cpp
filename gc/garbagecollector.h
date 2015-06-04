@@ -4,7 +4,6 @@
 
 #include <cstdlib>
 #include "minfo.h"
-#include "gc_shared.h"
 
 
 namespace MemoryManagement {
@@ -17,7 +16,7 @@ inline size_t _object_unique_id(T *ptr)
 
 
 struct GarbageCollectorImplementation;
-class GC_SHARED GarbageCollector
+class GarbageCollector
 {
     GarbageCollector();
 
