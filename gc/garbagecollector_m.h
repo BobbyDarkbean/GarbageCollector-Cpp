@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <map>
+#include <mutex>
 #include "gc_global.h"
 
 
@@ -21,10 +22,15 @@ struct GarbageCollectorImplementation
 
     std::map<size_t, _MBlockInfo *> mem_map;
 
+    static std::mutex mx;
+
 private:
     DISABLE_COPY(GarbageCollectorImplementation)
     DISABLE_MOVE(GarbageCollectorImplementation)
 };
+
+
+std::mutex GarbageCollectorImplementation::mx;
 
 
 } // namespace Mapping

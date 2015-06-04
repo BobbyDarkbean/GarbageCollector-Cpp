@@ -40,6 +40,8 @@ GarbageCollector::~GarbageCollector()
 
 GarbageCollector &GarbageCollector::instance()
 {
+    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+
     static GarbageCollector gc;
     return gc;
 }
@@ -47,6 +49,8 @@ GarbageCollector &GarbageCollector::instance()
 
 void GarbageCollector::acquire(size_t key, _MBlockInfo *mInfo)
 {
+    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+
     std::pair<std::map<size_t, _MBlockInfo *>::iterator, bool> insertion =
             m->mem_map.insert(std::make_pair(key, mInfo));
 
@@ -63,6 +67,8 @@ void GarbageCollector::acquire(size_t key, _MBlockInfo *mInfo)
 
 void GarbageCollector::release(size_t key)
 {
+    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+
     std::map<size_t, _MBlockInfo *>::iterator itr =
             m->mem_map.find(key);
 
