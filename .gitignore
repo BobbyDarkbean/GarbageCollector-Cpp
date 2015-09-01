@@ -10,6 +10,8 @@
 Makefile*
 *.pro.user*
 
+*.kdev4
+
 # xemacs temporary files
 *.flc
 
