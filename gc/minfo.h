@@ -27,7 +27,7 @@ class _MBlockInfo
 public:
     _MBlockInfo();
     virtual ~_MBlockInfo();
-    virtual void *address() const = 0;
+    virtual const void *address() const = 0;
 
 private:
     DISABLE_COPY(_MBlockInfo)
@@ -42,7 +42,7 @@ public:
     explicit _MAllocInfo(T *object = 0);
     virtual ~_MAllocInfo();
 
-    void *address() const;
+    const void *address() const;
     T *&operator *() { return obj; }
 
 private:
@@ -60,7 +60,7 @@ public:
     explicit _AAllocInfo(T *array = 0);
     virtual ~_AAllocInfo();
 
-    void *address() const;
+    const void *address() const;
     T *&operator *() { return arr; }
 
 private:
@@ -94,8 +94,8 @@ _MAllocInfo<T>::~_MAllocInfo()
 
 
 template <typename T>
-void *_MAllocInfo<T>::address() const
-{ return reinterpret_cast<void *>(obj); }
+const void *_MAllocInfo<T>::address() const
+{ return reinterpret_cast<const void *>(obj); }
 
 
 template <typename T>
@@ -121,15 +121,17 @@ _AAllocInfo<T>::~_AAllocInfo()
 
 
 template <typename T>
-void *_AAllocInfo<T>::address() const
-{ return reinterpret_cast<void *>(arr); }
+const void *_AAllocInfo<T>::address() const
+{ return reinterpret_cast<const void *>(arr); }
 
 
 template <typename T>
 _MBlockInfo *create_mInfo(T *ptr, bool array)
 {
 #ifdef GC_ECHO
+#ifdef GC_MTHREAD
     std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+#endif // GC_MTHREAD
 #endif // GC_ECHO
     if (array)  return new _AAllocInfo<T>(ptr);
     else        return new _MAllocInfo<T>(ptr);
