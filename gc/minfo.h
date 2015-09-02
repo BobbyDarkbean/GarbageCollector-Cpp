@@ -76,8 +76,8 @@ _MAllocInfo<T>::_MAllocInfo(T *object)
     : _MBlockInfo(), obj(object)
 {
 #ifdef GC_ECHO
-    std::cout << "MInfo: created for object of type "
-              << typeid(T).name() << " at " << obj << std::endl;
+    std::cout << "MInfo:\t" << reinterpret_cast<const void *>(obj)
+              << "\tcreated\t\tobject\t" << typeid(T).name() << std::endl;
 #endif // GC_ECHO
 }
 
@@ -87,8 +87,8 @@ _MAllocInfo<T>::~_MAllocInfo()
 {
     _destruct_call(obj);
 #ifdef GC_ECHO
-    std::cout << "MInfo: object of type " << typeid(T).name()
-              << " destroyed at " << obj << std::endl;
+    std::cout << "MInfo:\t" << reinterpret_cast<const void *>(obj)
+              << "\tdestroyed\tobject\t" << typeid(T).name() << std::endl;
 #endif // GC_ECHO
 }
 
@@ -103,8 +103,8 @@ _AAllocInfo<T>::_AAllocInfo(T *array)
     : _MBlockInfo(), arr(array)
 {
 #ifdef GC_ECHO
-    std::cout << "MInfo: created for array of type "
-              << typeid(T).name() << " at " << arr << std::endl;
+    std::cout << "MInfo:\t" << reinterpret_cast<const void *>(arr)
+              << "\tcreated\t\tarray\t" << typeid(T).name() << std::endl;
 #endif // GC_ECHO
 }
 
@@ -114,8 +114,8 @@ _AAllocInfo<T>::~_AAllocInfo()
 {
     _destruct_array_call(arr);
 #ifdef GC_ECHO
-    std::cout << "MInfo: array of type " << typeid(T).name()
-              << " destroyed at " << arr << std::endl;
+    std::cout << "MInfo:\t" << reinterpret_cast<const void *>(arr)
+              << "\tdestroyed\tarray\t" << typeid(T).name() << std::endl;
 #endif // GC_ECHO
 }
 

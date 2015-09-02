@@ -74,8 +74,8 @@ void GarbageCollector::acquire_helper(const void *key, _MBlockInfo *mInfo)
         insertion.first->second = mInfo;
     }
 #ifdef GC_ECHO
-    std::cout << "GC: pointer acquired at "
-              << insertion.first->second->address() << std::endl;
+    std::cout << "GC:\t" << insertion.first->second->address()
+              << "\tpointer acquired" << std::endl;
 #endif // GC_ECHO
 }
 
@@ -93,8 +93,8 @@ void GarbageCollector::release_helper(const void *key)
         return;
 
 #ifdef GC_ECHO
-    std::cout << "GC: user-activated destruction at "
-              << itr->second->address() << std::endl;
+    std::cout << "GC:\t" << itr->second->address()
+              << "\tuser-activated destruction" << std::endl;
 #endif // GC_ECHO
     delete itr->second;
     m->mem_map.erase(itr);
