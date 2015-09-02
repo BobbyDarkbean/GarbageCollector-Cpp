@@ -11,8 +11,8 @@ namespace Mapping {
 
 
 template <typename T>
-inline size_t _object_unique_id(T *ptr)
-{ return reinterpret_cast<size_t>(ptr); }
+inline const void *_object_unique_id(T *ptr)
+{ return reinterpret_cast<const void *>(ptr); }
 
 
 struct GarbageCollectorImplementation;
@@ -37,8 +37,8 @@ private:
     DISABLE_COPY(GarbageCollector)
     DISABLE_MOVE(GarbageCollector)
 
-    void acquire(size_t, _MBlockInfo *);
-    void release(size_t);
+    void acquire_helper(const void *, _MBlockInfo *);
+    void release_helper(const void *);
 
     GarbageCollectorImplementation *m;
 };
@@ -47,14 +47,14 @@ private:
 template <typename T>
 inline T *GarbageCollector::acquire(T *ptr, bool array)
 {
-    acquire(_object_unique_id(ptr), create_mInfo(ptr, array));
+    acquire_helper(_object_unique_id(ptr), create_mInfo(ptr, array));
     return ptr;
 }
 
 
 template <typename T>
 inline void GarbageCollector::release(T *ptr)
-{ release(_object_unique_id(ptr)); }
+{ release_helper(_object_unique_id(ptr)); }
 
 
 } // namespace Mapping

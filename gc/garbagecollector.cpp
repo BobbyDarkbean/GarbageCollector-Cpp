@@ -10,7 +10,9 @@ namespace MemoryManagement {
 namespace Mapping {
 
 
+#ifdef GC_MTHREAD
 std::mutex GarbageCollectorImplementation::mx;
+#endif // GC_MTHREAD
 
 
 GarbageCollectorImplementation::GarbageCollectorImplementation()
@@ -19,12 +21,12 @@ GarbageCollectorImplementation::GarbageCollectorImplementation()
 
 GarbageCollectorImplementation::~GarbageCollectorImplementation()
 {
-    std::map<size_t, _MBlockInfo *>::iterator _end = mem_map.end();
-    for (std::map<size_t, _MBlockInfo *>::iterator itr = mem_map.begin();
+    std::unordered_map<const void *, _MBlockInfo *>::iterator _end = mem_map.end();
+    for (std::unordered_map<const void *, _MBlockInfo *>::iterator itr = mem_map.begin();
          itr != _end; ++itr) {
 #ifdef GC_ECHO
-    std::cout << "GC: auto destruction at "
-              << itr->second->address() << std::endl;
+    std::cout << "GC:\t" << itr->second->address()
+              << "\tauto destruction" << std::endl;
 #endif // GC_ECHO
         delete itr->second;
     }
@@ -49,18 +51,22 @@ size_t GarbageCollector::acquisitions() const
 
 GarbageCollector &GarbageCollector::instance()
 {
+#ifdef GC_MTHREAD
     std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+#endif // GC_MTHREAD
 
     static GarbageCollector gc;
     return gc;
 }
 
 
-void GarbageCollector::acquire(size_t key, _MBlockInfo *mInfo)
+void GarbageCollector::acquire_helper(const void *key, _MBlockInfo *mInfo)
 {
+#ifdef GC_MTHREAD
     std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+#endif // GC_MTHREAD
 
-    std::pair<std::map<size_t, _MBlockInfo *>::iterator, bool> insertion =
+    std::pair<std::unordered_map<const void *, _MBlockInfo *>::iterator, bool> insertion =
             m->mem_map.insert(std::make_pair(key, mInfo));
 
     if (!insertion.second) {
@@ -74,11 +80,13 @@ void GarbageCollector::acquire(size_t key, _MBlockInfo *mInfo)
 }
 
 
-void GarbageCollector::release(size_t key)
+void GarbageCollector::release_helper(const void *key)
 {
+#ifdef GC_MTHREAD
     std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+#endif // GC_MTHREAD
 
-    std::map<size_t, _MBlockInfo *>::iterator itr =
+    std::unordered_map<const void *, _MBlockInfo *>::iterator itr =
             m->mem_map.find(key);
 
     if (itr == m->mem_map.end())
