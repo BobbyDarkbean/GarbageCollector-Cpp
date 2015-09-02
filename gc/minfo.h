@@ -15,11 +15,11 @@ namespace Mapping {
 
 
 template <typename T>
-void _destruct_call(T *ptr) { delete ptr; }
+inline void _destruct_call(T *ptr) { delete ptr; }
 
 
 template <typename T>
-void _destruct_array_call(T *ptr) { delete[] ptr; }
+inline void _destruct_array_call(T *ptr) { delete[] ptr; }
 
 
 class _MBlockInfo

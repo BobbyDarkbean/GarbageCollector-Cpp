@@ -14,10 +14,8 @@
 
 #define GC_DRIVEN(Class) \
     virtual ~Class(); \
-    template <typename T> \
-    friend void _destruct_call<T>(T *); \
-    template <typename T> \
-    friend void _destruct_array_call<T>(T *);
+    friend void ::MemoryManagement::Mapping::_destruct_call<Class>(Class *); \
+    friend void ::MemoryManagement::Mapping::_destruct_array_call<Class>(Class *);
 
 
 #endif // GC_GLOBAL_H
