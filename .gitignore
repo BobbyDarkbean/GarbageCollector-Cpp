@@ -12,6 +12,8 @@ Makefile*
 
 *.kdev4
 
+*.txt.user
+
 # xemacs temporary files
 *.flc
 
