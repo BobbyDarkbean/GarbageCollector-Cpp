@@ -3,6 +3,9 @@
 
 
 #include <cstdlib>
+#ifdef GC_MTHREAD
+#include <mutex>
+#endif // GC_MTHREAD
 #include "minfo.h"
 
 
@@ -40,6 +43,13 @@ private:
     void acquire_helper(const void *, _MBlockInfo *);
     void release_helper(const void *);
 
+#ifdef GC_MTHREAD
+    template <typename T>
+    _MBlockInfo *create_mInfo_helper(T *ptr, bool array);
+    
+    static std::mutex mx;
+#endif // GC_MTHREAD
+
     GarbageCollectorImplementation *m;
 };
 
@@ -47,7 +57,12 @@ private:
 template <typename T>
 inline T *GarbageCollector::acquire(T *ptr, bool array)
 {
-    acquire_helper(_object_unique_id(ptr), create_mInfo(ptr, array));
+#if defined(GC_MTHREAD) && defined(GC_ECHO)
+    _MBlockInfo *mInfo = create_mInfo_helper(ptr, array);
+#else
+    _MBlockInfo *mInfo = create_mInfo(ptr, array);
+#endif // defined(GC_MTHREAD) && defined(GC_ECHO)
+    acquire_helper(_object_unique_id(ptr), mInfo);
     return ptr;
 }
 
@@ -55,6 +70,16 @@ inline T *GarbageCollector::acquire(T *ptr, bool array)
 template <typename T>
 inline void GarbageCollector::release(T *ptr)
 { release_helper(_object_unique_id(ptr)); }
+
+
+#if defined(GC_MTHREAD) && defined(GC_ECHO)
+template <typename T>
+inline _MBlockInfo *GarbageCollector::create_mInfo_helper(T *ptr, bool array)
+{
+    std::lock_guard<std::mutex> lock(GarbageCollector::mx);
+    return create_mInfo(ptr, array);
+}
+#endif // defined(GC_MTHREAD) && defined(GC_ECHO)
 
 
 } // namespace Mapping

@@ -6,7 +6,6 @@
 #ifdef GC_ECHO
 #include <iostream>
 #include <typeinfo>
-#include "garbagecollector_m.h"
 #endif // GC_ECHO
 
 
@@ -126,13 +125,8 @@ const void *_AAllocInfo<T>::address() const
 
 
 template <typename T>
-_MBlockInfo *create_mInfo(T *ptr, bool array)
+inline _MBlockInfo *create_mInfo(T *ptr, bool array)
 {
-#ifdef GC_ECHO
-#ifdef GC_MTHREAD
-    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
-#endif // GC_MTHREAD
-#endif // GC_ECHO
     if (array)  return new _AAllocInfo<T>(ptr);
     else        return new _MAllocInfo<T>(ptr);
 }

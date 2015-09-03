@@ -3,9 +3,6 @@
 
 
 #include <unordered_map>
-#ifdef GC_MTHREAD
-#include <mutex>
-#endif // GC_MTHREAD
 #include "gc_global.h"
 
 
@@ -22,10 +19,6 @@ struct GarbageCollectorImplementation
     ~GarbageCollectorImplementation();
 
     std::unordered_map<const void *, _MBlockInfo *> mem_map;
-
-#ifdef GC_MTHREAD
-    static std::mutex mx;
-#endif // GC_MTHREAD
 
 private:
     DISABLE_COPY(GarbageCollectorImplementation)

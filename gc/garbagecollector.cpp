@@ -11,7 +11,7 @@ namespace Mapping {
 
 
 #ifdef GC_MTHREAD
-std::mutex GarbageCollectorImplementation::mx;
+std::mutex GarbageCollector::mx;
 #endif // GC_MTHREAD
 
 
@@ -52,7 +52,7 @@ size_t GarbageCollector::acquisitions() const
 GarbageCollector &GarbageCollector::instance()
 {
 #ifdef GC_MTHREAD
-    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+    std::lock_guard<std::mutex> lock(GarbageCollector::mx);
 #endif // GC_MTHREAD
 
     static GarbageCollector gc;
@@ -63,7 +63,7 @@ GarbageCollector &GarbageCollector::instance()
 void GarbageCollector::acquire_helper(const void *key, _MBlockInfo *mInfo)
 {
 #ifdef GC_MTHREAD
-    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+    std::lock_guard<std::mutex> lock(GarbageCollector::mx);
 #endif // GC_MTHREAD
 
     std::pair<std::unordered_map<const void *, _MBlockInfo *>::iterator, bool> insertion =
@@ -83,7 +83,7 @@ void GarbageCollector::acquire_helper(const void *key, _MBlockInfo *mInfo)
 void GarbageCollector::release_helper(const void *key)
 {
 #ifdef GC_MTHREAD
-    std::lock_guard<std::mutex> lock(GarbageCollectorImplementation::mx);
+    std::lock_guard<std::mutex> lock(GarbageCollector::mx);
 #endif // GC_MTHREAD
 
     std::unordered_map<const void *, _MBlockInfo *>::iterator itr =
