@@ -30,7 +30,6 @@ public:
 
 private:
     DISABLE_COPY(_MBlockInfo)
-    DISABLE_MOVE(_MBlockInfo)
 };
 
 
@@ -46,7 +45,6 @@ public:
 
 private:
     DISABLE_COPY(_MAllocInfo)
-    DISABLE_MOVE(_MAllocInfo)
 
     T *obj;
 };
@@ -64,7 +62,6 @@ public:
 
 private:
     DISABLE_COPY(_AAllocInfo)
-    DISABLE_MOVE(_AAllocInfo)
 
     T *arr;
 };

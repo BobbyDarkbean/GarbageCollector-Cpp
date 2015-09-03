@@ -38,7 +38,6 @@ public:
 
 private:
     DISABLE_COPY(GarbageCollector)
-    DISABLE_MOVE(GarbageCollector)
 
     void acquire_helper(const void *, _MBlockInfo *);
     void release_helper(const void *);

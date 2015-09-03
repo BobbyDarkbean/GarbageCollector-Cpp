@@ -3,13 +3,10 @@
 
 
 #define DISABLE_COPY(Class) \
-    Class(const Class &); \
-    Class &operator =(const Class &);
-
-
-#define DISABLE_MOVE(Class) \
-    Class(Class &&); \
-    Class &operator =(Class &&);
+    Class(const Class &) = delete; \
+    Class(Class &&) = delete; \
+    Class &operator =(const Class &) = delete; \
+    Class &operator =(Class &&) = delete;
 
 
 #define GC_DRIVEN(Class) \

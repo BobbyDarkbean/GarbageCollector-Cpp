@@ -22,7 +22,6 @@ struct GarbageCollectorImplementation
 
 private:
     DISABLE_COPY(GarbageCollectorImplementation)
-    DISABLE_MOVE(GarbageCollectorImplementation)
 };
 
 } // namespace Mapping
